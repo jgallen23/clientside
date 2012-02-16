@@ -1,7 +1,11 @@
 v0.0.1:
-	- git
 	- github
+	- doc
+	- gh-page
+	- readme
 	- npm
+	- no output when there aren't any dependencies @done(2012-02-16)
+	- git @done(2012-02-16)
 	- bin @done(2012-02-16)
 	- pass in library name @done(2012-02-16)
 	- wrap entire library @done(2012-02-16)
@@ -17,7 +21,8 @@ v0.0.1:
 	- require('') @done(2012-02-14)
 	- module.exports @done(2012-02-15)
 	- exports @done(2012-02-14)
-	- wrap code @done(2012-02-12)
+	- wrap code @done(2012-02-16)
+	- don't wrap root file? @done(2012-02-16)
 Future:
 	- finish unit tests
 	- get burrito working

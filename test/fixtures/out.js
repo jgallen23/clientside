@@ -21,7 +21,6 @@ exports = ClassB;
 
 return exports;
 })({});
-var cs0 = (function(exports) {
 var ClassA = cs1;
 var ClassB = cs2;
 
@@ -35,6 +34,4 @@ exports = {
 };
 
 return exports;
-})({});
-return cs0;
 })({});
