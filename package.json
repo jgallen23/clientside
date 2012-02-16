@@ -1,0 +1,23 @@
+{
+  "name": "clientside",
+  "description": "a tool for converting CommonJS style code into code for the browser",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jgallen23/clientside",
+  "author": "Greg Allen <@jgaui> (http://jga.me)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgallen23/clientside.git"
+  },
+  "dependencies": {
+		"aug": "*",
+		"burrito": "*",
+		"commander": "*"
+  },
+  "devDependencies": {
+		"mocha": "*",
+    "chai": "*",
+		"cover": "*",
+    "markx": "*"
+  },
+  "keywords": ["build", "browser", "AMD", "compile", "require"]
+}

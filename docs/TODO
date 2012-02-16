@@ -1,0 +1,29 @@
+v0.0.1:
+	- git
+	- github
+	- npm
+	- bin @done(2012-02-16)
+	- pass in library name @done(2012-02-16)
+	- wrap entire library @done(2012-02-16)
+	- package.json @done(2012-02-16)
+	- ClassA: require('./a'); @done(2012-02-16)
+	- remove logging/debug (for now) @done(2012-02-16)
+	- ordered list unit tests @done(2012-02-14)
+	- depTree @done(2012-02-14)
+		- add(test, [test2, test3]) @done(2012-02-14)
+		- check for circular @done(2012-02-14)
+	- refactor @done(2012-02-14)
+	- try macrojs/burrito again @done(2012-02-14)
+	- require('') @done(2012-02-14)
+	- module.exports @done(2012-02-15)
+	- exports @done(2012-02-14)
+	- wrap code @done(2012-02-12)
+Future:
+	- finish unit tests
+	- get burrito working
+	- look at node-detective
+	- require(variable);
+	- document code (dox?)
+	- uglify
+	- jslint
+	- middleware?

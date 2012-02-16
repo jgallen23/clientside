@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var Library = require('../lib/library');
+var path = require('path');
+
+program
+  .version('0.0.1')
+  .option('-e, --export <name>', 'Module Name')
+  .usage('-e <name> [file]');
+
+program.on('--help', function() {
+  console.log('  Examples:');  
+  console.log('');  
+  console.log('    $ clientside --export module index.js > dist/module.js');
+}); 
+
+program.parse(process.argv);
+
+
+var files = program.args;
+
+if (program.export && files.length == 1) {
+  var file = files[0];
+  file = path.join(process.cwd(), file);
+  var l = new Library(program.export, file);
+  var out = l.build();
+  process.stdout.write(out);
+} else {
+  process.stdout.write(program.helpInformation());
+  program.emit('--help');
+  process.exit(1);
+}
+
