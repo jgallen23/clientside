@@ -19,5 +19,6 @@
 		"cover": "*",
     "markx": "*"
   },
+  "bin": { "clientside": "./bin/clientside" },
   "keywords": ["build", "browser", "AMD", "compile", "require"]
 }

@@ -10,4 +10,10 @@ watch:
 build-fixtures:
 	@./bin/clientside --export fixture test/fixtures/c.js > test/fixtures/out.js
 
-.PHONY: coverage test watch build-fixtures
+preview-docs:
+	@./node_modules/.bin/markx --lang javascript --preview 8001 docs/index.md 
+
+preview-readme:
+	@./node_modules/.bin/markx --preview 8001 README.md 
+
+.PHONY: coverage test watch build-fixtures preview-docs preview-readme

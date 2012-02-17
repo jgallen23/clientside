@@ -1,9 +1,9 @@
 v0.0.1:
 	- github
-	- doc
 	- gh-page
-	- readme
 	- npm
+	- readme @done(2012-02-16)
+	- doc @done(2012-02-16)
 	- no output when there aren't any dependencies @done(2012-02-16)
 	- git @done(2012-02-16)
 	- bin @done(2012-02-16)
@@ -24,6 +24,8 @@ v0.0.1:
 	- wrap code @done(2012-02-16)
 	- don't wrap root file? @done(2012-02-16)
 Future:
+	- get working with modules
+	- some way to shim server requires (requires('fs'))
 	- finish unit tests
 	- get burrito working
 	- look at node-detective
