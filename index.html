@@ -1,88 +1,92 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta charset='utf-8'>
+  <head>
+    <title>Logr</title>
+    <link type="text/css" rel="stylesheet" href="ui/common.css"/>
+    <link type="text/css" rel="stylesheet" href="ui/ir_black.css"/>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24017782-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="http://github.com/jgallen23/logr"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+    <div id="wrapper">
+<h1>ClientSide</h1>
+<p>Clientside is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.
 
-  <title>jgallen23/clientside @ GitHub</title>
+</p>
+<p><em>Note this is still an early release, so it might not work in every case.  If you run into an issue, please add it <a href="">here</a>.</em>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #025279;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #fdad86; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #fdad86; }
-    h3 { text-align: center; color: #fdad86; }
-    a { color: #fdad86; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+</p>
+<h2>Installation</h2>
+<p>Install via npm
 
-<body>
-  <a href="https://github.com/jgallen23/clientside"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+</p>
+<pre><code>npm install -g clientside</code></pre>
+<h2>Usage</h2>
+<pre><code>Usage: clientside -e &lt;name> [file]
 
-  <div id="container">
+Options:
 
-    <div class="download">
-      <a href="https://github.com/jgallen23/clientside/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/jgallen23/clientside/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
+-h, --help           output usage information
+-V, --version        output the version number
+-e, --export &lt;name>  Module Name
 
-    <h1><a href="https://github.com/jgallen23/clientside">clientside</a>
-      <span class="small">by <a href="https://github.com/jgallen23">jgallen23</a></span></h1>
+Examples:
 
-    <div class="description">
-      Tool to convert server side (CommonJS) modules to client side (browser) modules
-    </div>
+$ clientside --export module index.js > dist/module.js</code></pre>
+<h2>Examples</h2>
+<h3>index.js</h3>
+<pre><code><span class="keyword">var</span> ClassA = require(<span class="string">'./a'</span>);
 
-    
+<span class="keyword">var</span> ClassB = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">this</span>.a = <span class="keyword">new</span> ClassA();
+    console.log(<span class="string">'ClassB init'</span>);
+};
 
-    
+module.exports = ClassB;</code></pre>
+<h3>a.js</h3>
+<pre><code><span class="keyword">var</span> ClassA = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">'ClassA init'</span>);
+}
 
-    
+module.exports = ClassA;</code></pre>
+<h3>Command</h3>
+<pre><code>clientside --export ClassB index.js</code></pre>
+<h3>Output</h3>
+<pre><code><span class="keyword">var</span> ClassB = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+    <span class="keyword">var</span> cs1 = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+        <span class="keyword">var</span> ClassA = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+                console.log(<span class="string">'ClassA init'</span>);
+        }
 
-    
+        exports = ClassA;
 
-    
-      <h2>Authors</h2>
-      <p>Greg Allen (me@jga.me)<br/>      </p>
-    
+        <span class="keyword">return</span> exports;
+    })({});
+    <span class="keyword">var</span> ClassA = cs1;
 
-    
-      <h2>Contact</h2>
-      <p>Greg (mail@jga23.com)<br/>      </p>
-    
+    <span class="keyword">var</span> ClassB = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>.a = <span class="keyword">new</span> ClassA();
+                console.log(<span class="string">'ClassB init'</span>);
+    };
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/jgallen23/clientside/zipball/master">zip</a> or
-      <a href="https://github.com/jgallen23/clientside/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/jgallen23/clientside</pre>
-    </p>
+    exports = ClassB;
 
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/jgallen23/clientside">jgallen23/clientside</a>
-    </div>
+    <span class="keyword">return</span> exports;
+})({});</code></pre>
+<h2>Future</h2>
+<p>View <a href="http://github.com/jgallen23/clientside/docs/TODO">TODO</a>
 
-  </div>
-
-</body>
-</html>
+</p>
+<h2>Authors</h2>
+<ul>
+<li>Greg Allen (<a href="http://twitter.com/jgaui">@jgaui</a>) <a href="http://jga.me">jga.me</a></li>
+</ul>
+</div></body></html>
