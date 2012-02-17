@@ -75,7 +75,7 @@ Install via npm
 
 ##Future
 
-View [TODO](http://github.com/jgallen23/clientside/docs/TODO)
+View [TODO](https://raw.github.com/jgallen23/clientside/master/docs/TODO)
 
 ##Authors
 - Greg Allen ([@jgaui](http://twitter.com/jgaui)) [jga.me](http://jga.me)

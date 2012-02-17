@@ -1,3 +1,6 @@
+site : docs/index.md 
+	@./node_modules/.bin/markx --lang javascript docs/index.md | cat site/layout/head.html - site/layout/foot.html > site/index.html
+
 test:
 	@./node_modules/.bin/mocha
 
