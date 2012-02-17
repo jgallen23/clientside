@@ -1,7 +1,18 @@
-v0.0.1:
-	- github
-	- gh-page
-	- npm
+Future:
+	- get working with modules
+	- some way to shim server requires (requires('fs'))
+	- finish unit tests
+	- get burrito working
+	- look at node-detective
+	- require(variable);
+	- document code (dox?)
+	- uglify
+	- jslint
+	- middleware?
+v0.0.1: @done
+	- npm @done(2012-02-16)
+	- github @done(2012-02-16)
+	- gh-page @done(2012-02-16)
 	- readme @done(2012-02-16)
 	- doc @done(2012-02-16)
 	- no output when there aren't any dependencies @done(2012-02-16)
@@ -23,14 +34,3 @@ v0.0.1:
 	- exports @done(2012-02-14)
 	- wrap code @done(2012-02-16)
 	- don't wrap root file? @done(2012-02-16)
-Future:
-	- get working with modules
-	- some way to shim server requires (requires('fs'))
-	- finish unit tests
-	- get burrito working
-	- look at node-detective
-	- require(variable);
-	- document code (dox?)
-	- uglify
-	- jslint
-	- middleware?
