@@ -1,14 +1,19 @@
 Future:
-	- get working with modules
-	- some way to shim server requires (requires('fs'))
+	- check if built in
 	- finish unit tests
+	- get working with modules (nested as well) https://github.com/substack/node-browserify/blob/master/lib/wrap.js#L329
+	- work with require('/mod');
 	- get burrito working
+	- look at esprima
 	- look at node-detective
+	- some way to shim server requires (requires('fs'))
 	- require(variable);
 	- document code (dox?)
 	- uglify
 	- jslint
 	- middleware?
+v0.0.2: @done
+	- glob test @done(2012-02-18)
 v0.0.1: @done
 	- npm @done(2012-02-16)
 	- github @done(2012-02-16)
