@@ -12,8 +12,8 @@ var fixtureC = path.join(__dirname, 'fixtures/c.js');
 describe('File', function() {
 
   describe('#init', function() {
-    var l = new Library();
     it('should throw if library not passed in', function() {
+      var l = new Library();
       expect(function() {
         new File();
       }).to.throw();
