@@ -10,10 +10,13 @@ var fixtureB = path.join(__dirname, 'fixtures/b.js');
 var fixtureC = path.join(__dirname, 'fixtures/c.js');
 
 describe('File', function() {
-
+  var l;
+  beforeEach(function() {
+    l = new Library('FixtureC', fixtureC);
+  });
   describe('#init', function() {
+
     it('should throw if library not passed in', function() {
-      var l = new Library();
       expect(function() {
         new File();
       }).to.throw();
@@ -29,7 +32,7 @@ describe('File', function() {
       var f = new File(l, fixtureA);
       expect(f.filename).to.equal(fixtureA);
       expect(f.dirname).to.equal(path.dirname(fixtureA));
-      expect(f.source).to.exist;
+      expect(f.source).to.equal(fs.readFileSync(fixtureA, 'utf8'));
     });
     
     it('should set override options if passed in', function() {
@@ -53,7 +56,13 @@ describe('File', function() {
 
   });
 
-  describe('#_getId', function() {
+  describe('#generateId', function() {
+    it('should only generateId once per file', function() {
+      var f1 = new File(fixtureA);
+      var id1 = f1.id;
+      expect(f1.generateId()).to.equal(id1);
+    });
+    
     it('should generate a unique id per instance', function() {
       var f1 = new File(fixtureA);
       var f2 = new File(fixtureA);
@@ -71,7 +80,6 @@ describe('File', function() {
     var src = 'var a = 1;';
     var f;
     beforeEach(function() {
-      var l = new Library();
       f = new File(l);
       f.setSource(src);
     });
@@ -87,13 +95,20 @@ describe('File', function() {
   describe('#resolveRequire', function() {
     var f;
     beforeEach(function() {
-      var l = new Library();
       f = new File(l, fixtureA);
     });
+    //TODO
+    //it('should work with global modules', function() {
+      //var p = f.resolveRequire('fs');
+      //console.log(p);
+      ////expect(p)
+    //});
+    
     it('should work with module names', function() {
       var p = f.resolveRequire('mocha');
       expect(p).to.match(/node_modules\/mocha\/index.js$/);
     });
+
     it('should work with relative paths', function() {
       var p = f.resolveRequire('./b'); 
       expect(p).to.match(/test\/fixtures\/b.js$/);
@@ -104,10 +119,73 @@ describe('File', function() {
     });
   });
 
+
+  describe('#replaceRequires', function() {
+    var f;
+    beforeEach(function() {
+      f = new File(l, fixtureC);
+      f.replaceRequires();
+    });
+    it('should replace requires with generated id', function() {
+      expect(f.source).to.not.match(/requires\(/); 
+    });
+    it('should add files to library', function() {
+      expect(f.library.files[fixtureB]).to.exist;
+      expect(f.library.files[fixtureA]).to.exist;
+    });
+    it('should add dependencies to library', function() {
+      var depTree = f.library.depTree;
+      expect(depTree.dependants[fixtureC].length).to.equal(2);
+    });
+    
+  });
+
+  describe('#replaceModuleExports', function() {
+    it('should replace module.exports with exports', function() {
+      var f = new File(l, fixtureC);
+      f.replaceModuleExports();
+      expect(f.source).to.not.match(/module.exports/);  
+      expect(f.source).to.match(/exports/);  
+    });
+  });
+
+  describe('#wrap', function() {
+    it('should wrap code', function() {
+      var f = new File(l, fixtureA);
+      f.wrap();
+      expect(f.source).to.match(new RegExp('^var '+f.id+' = '));
+      expect(f.source).to.match(/return exports;/);
+    });
+  });
+
+  describe('#requires', function() {
+    it('should add to library\'s depTree', function() {
+      var f = new File(l, fixtureB);
+      f.requires(fixtureA);
+      expect(f.library.depTree.dependants[fixtureB].length).to.equal(1);
+    });
+  });
+
+  describe('#build', function() {
+    it('should replaceRequires, replace module.exports and wrap', function() {
+      var f = new File(l, fixtureC);
+      var out = f.build();
+      expect(out).to.match(new RegExp('^var '+f.id+' = '));
+      expect(out).to.not.match(/module.exports/);  
+    });
+    it('should replaceRequires, replace module.exports and not wrap if root', function() {
+      var f = new File(l, fixtureC);
+      var out = f.build(true);
+      expect(out).to.not.match(new RegExp('^var '+f.id+' = '));
+      expect(out).to.not.match(/module.exports/);  
+    });
+  });
+
+  //TODO:
+  /*
   describe('#parse', function() {
     var f;
     beforeEach(function() {
-      var l = new Library();
       f = new File(l, fixtureC);
       f.parse();
     });
@@ -121,7 +199,6 @@ describe('File', function() {
       });
       
     });
-    /*
     it('should add dependencies', function() {
       expect(f.deps.length).to.not.equal(0);
     });
@@ -130,36 +207,6 @@ describe('File', function() {
       expect(f.src).to.match(/exports = /);
     });
     console.log(f.src);
-    */
   });
-
-  /*
-  describe('#wrap', function() {
-    it('should wrap code', function() {
-      var f = new File(fixtureA);
-      f.wrap();
-      //TODO
-      //expect(f.src).to.match(new RegExp('^var '+f.id+' = \(function\(\) \{'));
-      //expect(f.src).to.match(/}\)\(\);$/);
-    });
-  });
-
-  describe('#replaceRequires', function() {
-    var f = new File(fixtureC);
-    f.replaceRequires();
-    //console.log(f.src);
-  });
-
-  describe('#replaceModuleExports', function() {
-    var f = new File(fixtureC);
-    f.replaceModuleExports();
-    //console.log(f.src);
-  });
-
-  /*
   */
-
-  describe('#processDependencies', function() {
-    
-  });
 });
