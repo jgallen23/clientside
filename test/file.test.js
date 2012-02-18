@@ -97,19 +97,13 @@ describe('File', function() {
     beforeEach(function() {
       f = new File(l, fixtureA);
     });
-    //TODO
-    //it('should work with global modules', function() {
-      //var p = f.resolveRequire('fs');
-      //console.log(p);
-      ////expect(p)
-    //});
-    
     it('should work with module names', function() {
       var p = f.resolveRequire('mocha');
       expect(p).to.match(/node_modules\/mocha\/index.js$/);
     });
 
     it('should work with relative paths', function() {
+      var dir = path.join(__dirname, '/fixtures');
       var p = f.resolveRequire('./b'); 
       expect(p).to.match(/test\/fixtures\/b.js$/);
       p = f.resolveRequire('../file.test.js'); 

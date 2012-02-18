@@ -1,5 +1,4 @@
 v0.0.3:
-	- don't read root file until build is called
 	- some way to shim server requires (requires('request'))
 	- finish unit tests @done(2012-02-18)
 		- deptree @done(2012-02-18)
