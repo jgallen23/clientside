@@ -1,11 +1,11 @@
 v0.0.3:
-	- finish unit tests
+	- don't read root file until build is called
+	- some way to shim server requires (requires('request'))
+	- finish unit tests @done(2012-02-18)
 		- deptree @done(2012-02-18)
 		- library @done(2012-02-18)
 		- file @done(2012-02-18)
-		- wrap
-	- don't read root file until build is called
-	- some way to shim server requires (requires('request'))
+		- wrap @done(2012-02-18)
 Future:
 	- a config file that can be checked into repo (or set in package.json) to let clientside know how to build
 	- check if built in
