@@ -68,10 +68,6 @@ describe('Library', function() {
       expect(l.files[fixtureB]).to.equal(f);
     });
 
-    it('should take an optional root param', function() {
-      var f = l.getFile(fixtureB, true); //don't wrap file
-      expect(f.source).to.not.match(/return exports/);
-    });
   });
 
   describe('#requires', function() {
@@ -98,11 +94,11 @@ describe('Library', function() {
 
   describe('#build', function() {
 
-    it('should add file passed in as root', function() {
+    it('should add file passed in as main', function() {
       var l = new Library('FixtureA', fixtureA);
       var out = l.build();
-      expect(l.root).to.be.an.instanceof(File);
-      expect(l.files[fixtureA]).to.equal(l.root);
+      expect(l.main).to.be.an.instanceof(File);
+      expect(l.files[fixtureA]).to.equal(l.main);
       expect(l.depTree.dependants[fixtureA]).to.exist;
     });
     

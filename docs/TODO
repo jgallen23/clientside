@@ -1,15 +1,16 @@
 v0.0.3:
-	- overview of what each class does
-	- need library or should file be able to handle everything?
-	- file don't require library, but can be set
-	- some way to shim server requires (requires('request'))
+	- a config file that can be checked into repo (or set in package.json) to let clientside know how to build
+	- overview of what each class does @done(2012-02-18)
+	- need library or should file be able to handle everything? @done(2012-02-18)
+	- some way to shim server requires (requires('request')) @done(2012-02-18)
 	- finish unit tests @done(2012-02-18)
 		- deptree @done(2012-02-18)
 		- library @done(2012-02-18)
 		- file @done(2012-02-18)
 		- wrap @done(2012-02-18)
 Future:
-	- a config file that can be checked into repo (or set in package.json) to let clientside know how to build
+	- refactor library to be chainable (don't pass in index file)
+	- file don't require library, but can be set
 	- check if built in
 	- work with require('/mod');
 	- get burrito working
