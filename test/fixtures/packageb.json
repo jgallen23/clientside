@@ -1,0 +1,10 @@
+{
+  "name": "moduleB",
+  "clientside": {
+    "name": "ModuleB",
+    "main": "test/fixtures/b.js",
+    "shim": {
+      "./a": "test/fixtures/shim-a.js"
+    }
+  }
+}

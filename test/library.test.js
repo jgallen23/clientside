@@ -12,149 +12,125 @@ var fixtureB = path.join(__dirname, 'fixtures/b.js');
 var fixtureC = path.join(__dirname, 'fixtures/c.js');
 
 describe('Library', function() {
-  describe('#constructor', function() {
-    it('should require module name and filename', function() {
-      expect(function() {
-        new Library();
-      }).to.throw();
-      
-      expect(function() {
-        new Library('name');
-      }).to.throw();
-    });
-  });
   describe('#init', function() {
-    var l;
-    beforeEach(function() {
-      l = new Library('FixtureA', fixtureA);
-    }); 
 
-    it('should set name to property', function() {
-      expect(l.name).to.equal('FixtureA');
-    });
-    
-    it('should create a files object', function() {
-      expect(l.files).to.exist; 
+    it('should set defaults', function() {
+      var lib = new Library();
+      expect(lib.meta.name).to.equal('moduleName');
     });
 
-    it('should create a shims object', function() {
-      expect(l.shims).to.exist; 
+    it('should be able to override defaults', function() {
+      var lib = new Library({ name: 'awesomeSause'});
+      expect(lib.meta.name).to.equal('awesomeSause');
+    });
+
+    it('should allow relative path for main', function() {
+      var lib = new Library({ main: 'test/fixtures/a.js' });
+      expect(lib.meta.main).to.equal(fixtureA);
+    });
+
+    it('should check if main file exists', function() {
+      expect(function() {
+        new Library({ main: 'fail.js'});
+      }).to.throw();
+    });
+
+    it('should set dirname from main file', function() {
+      var lib = new Library({ main: fixtureA, name: 'awesomeSause'});
+      expect(lib.dirname).to.exist;
+    });
+
+    it('should set dirname to cwd if no main file', function() {
+      var lib = new Library();
+      expect(lib.dirname).to.exist;
     });
 
     it('should create a new dependency tree instance', function() {
-      var l = new Library('FixtureA', fixtureA);
-      expect(l.depTree).to.exist;
-      expect(l.depTree).to.be.an.instanceof(DepTree);
-    });
-
-    
-  });
-
-  describe('#getFile', function() {
-    var l;
-    beforeEach(function() {
-      l = new Library('FixtureA', fixtureA);
-    }); 
-
-    it('should get file if already exists', function() {
-      var f1 = l.getFile(fixtureA);
-      var f2 = l.getFile(fixtureA);
-      expect(f2).to.equal(f1);
-    });
-    
-
-    it('should add to files if doesn\'t exist', function() {
-      var f = l.getFile(fixtureB);
-      expect(l.files[fixtureB]).to.equal(f);
+      var lib = new Library();
+      expect(lib.depTree).to.exist;
+      expect(lib.depTree).to.be.an.instanceof(DepTree);
     });
 
   });
 
-  describe('#requires', function() {
-    var l;
+  describe('#addFile', function() {
+    var lib;
     beforeEach(function() {
-      l = new Library('FixtureA', fixtureA);
-    }); 
+      lib = new Library({
+        main: fixtureB
+      });
+      //addFile called if main defined
+    });
 
-    it('should take two file arguments and add to depTree', function() {
-      var f = l.getFile(fixtureA);
-      var f2 = l.getFile(fixtureB);
-      l.requires(f2, f);
+    it('should add file to meta.files', function() {
+      expect(lib.meta.files[fixtureB]).to.be.instanceof(File);
+    });
+
+    it('should call addDependencies', function() {
+      expect(lib.depTree.dependants[fixtureB].length).to.equal(1);
+    });
+
+    it('should check if file exists', function() {
       
-      expect(l.depTree.dependants[fixtureB].length).to.equal(1);
-      expect(l.depTree.dependants[fixtureA].length).to.equal(0);
     });
 
-    it('should also take one file argument and add to depTree', function() {
-      var f = l.getFile(fixtureA);
-      l.requires(f);
-      expect(l.depTree.dependants[fixtureA].length).to.equal(0);
+    it('should take optional key param', function() {
+      lib.addFile(fixtureAShim, fixtureC);
+      expect(lib.meta.files[fixtureC]).to.exist; 
+    });
+    
+  });
+
+  //called automatically if shims inside config object
+  describe('#processShims', function() {
+    it('should add shim to files', function() {
+      var lib = new Library({
+        main: fixtureB,
+        shim: {
+          './a': fixtureAShim,
+          'fs': fixtureAShim
+        }
+      });
+      expect(lib.meta.files[fixtureA].filename).to.equal(fixtureAShim);
     });
   });
+
 
   describe('#build', function() {
-
-    it('should add file passed in as main', function() {
-      var l = new Library('FixtureA', fixtureA);
-      var out = l.build();
-      expect(l.main).to.be.an.instanceof(File);
-      expect(l.files[fixtureA]).to.equal(l.main);
-      expect(l.depTree.dependants[fixtureA]).to.exist;
-    });
-    
-    it('should return wrapped source set to module name', function() {
-      var l = new Library('FixtureA', fixtureA);
-      var out = l.build();
-      expect(out).to.match(/var FixtureA = \(function/);
-      expect(out).to.match(/return exports/);
-    });
-    
-    it('should handle all dependencies', function() {
-      var l = new Library('FixtureC', fixtureC);
-      var out = l.build();
-      expect(out).to.match(/var FixtureC = \(function/);
-      expect(out).to.match(/var ClassA =/);
-      expect(out).to.match(/var ClassB =/);
-    });
-    it('should not throw any errors', function() {
+    it('should get list of dependencies and return source', function() {
+      var lib = new Library({ main: fixtureB });
+      var out = lib.build();
+      
       var sandbox = {
         console: {
           log: function() {} 
         }
       };
-      var l = new Library('FixtureC', fixtureC);
-      var out = l.build();
+      expect(out).to.not.match(/require/);
+      expect(out).to.not.match(/module.exports/);
       expect(function() {
         vm.runInNewContext(out, sandbox);
       }).to.not.throw();
     });
-    
-  });
-    
-  describe('#addShim', function() {
-    var l;
-    beforeEach(function() {
-      l = new Library('FixtureC', fixtureC);
-    });
-    
-    it('should take two strings and add to the shims object', function() {
-      l.addShim(fixtureA, fixtureAShim);
-      expect(l.shims[fixtureA]).to.be.an.instanceof(File);
-    });
-    
-    it('should use shim on build', function() {
+    it('should build with shims', function() {
+      var lib = new Library({ 
+        main: fixtureB,
+        shim: {
+          './a': fixtureAShim
+        }
+      });
+      var out = lib.build();
+      //console.log(out);
+      
       var sandbox = {
         console: {
           log: function() {} 
         }
       };
-      l.addShim(fixtureA, fixtureAShim);
-      var out = l.build();
       expect(out).to.match(/ClassA shim init/);
       expect(function() {
         vm.runInNewContext(out, sandbox);
       }).to.not.throw();
     });
   });
-
 });

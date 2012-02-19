@@ -2,6 +2,8 @@
 
 var program = require('commander');
 var Library = require('../lib/library');
+var packageReader = require('../lib/package-reader');
+var fs = require('fs');
 var path = require('path');
 
 program
@@ -11,8 +13,10 @@ program
 
 program.on('--help', function() {
   console.log('  Examples:');  
-  console.log('');  
+  console.log('Pass in params');  
   console.log('    $ clientside --export module index.js > dist/module.js');
+  console.log('Read from package.json');  
+  console.log('    $ clientside > dist/module.js');
 }); 
 
 program.parse(process.argv);
@@ -27,8 +31,16 @@ if (program.export && files.length == 1) {
   var out = l.build();
   process.stdout.write(out);
 } else {
-  process.stdout.write(program.helpInformation());
-  program.emit('--help');
-  process.exit(1);
+  //read from package.json
+  if (path.existsSync('package.json')) {
+    var json = JSON.parse(fs.readFileSync('package.json'));
+    var l = packageReader(json);
+    var out = l.build();
+    process.stdout.write(out);
+  } else {
+    process.stdout.write(program.helpInformation());
+    program.emit('--help');
+    process.exit(1);
+  }
 }
 

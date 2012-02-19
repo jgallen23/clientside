@@ -1,0 +1,4 @@
+{
+  "name": "ModuleA",
+  "main": "test/fixtures/a.js"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "ModuleName",
+  "main": "index.js",
+  "shim": {
+    "fs": 'lib/browser/fs.js'
+  }
+}

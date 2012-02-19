@@ -1,5 +1,16 @@
 v0.0.3:
-	- a config file that can be checked into repo (or set in package.json) to let clientside know how to build
+	- figure out how to handle AMD modules (aug)
+	- --verify (run in vm context)
+	- think about full middleware (replace require, module.exports)
+	- create history.md
+	- test on node 0.4
+	- update docs for package.json integration
+	- sketch out flow @done(2012-02-18)
+	- refactor file library @done(2012-02-19)
+	- refactor library to be chainable (don't pass in index file) @done(2012-02-19)
+	- shims have to be set before addMain, on getFile check if shim @done(2012-02-19)
+	- need file? @done(2012-02-19)
+	- a config file that can be checked into repo (or set in package.json) to let clientside know how to build @done(2012-02-18)
 	- overview of what each class does @done(2012-02-18)
 	- need library or should file be able to handle everything? @done(2012-02-18)
 	- some way to shim server requires (requires('request')) @done(2012-02-18)
@@ -9,7 +20,9 @@ v0.0.3:
 		- file @done(2012-02-18)
 		- wrap @done(2012-02-18)
 Future:
-	- refactor library to be chainable (don't pass in index file)
+	- Client side examples. Look at browserify
+	- Cs set up examples as unit tests
+	- clientside object - be able to turn off require check, module.exports if browser compatible version already exists
 	- file don't require library, but can be set
 	- check if built in
 	- work with require('/mod');
