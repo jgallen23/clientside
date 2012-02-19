@@ -1,4 +1,7 @@
 v0.0.3:
+	- overview of what each class does
+	- need library or should file be able to handle everything?
+	- file don't require library, but can be set
 	- some way to shim server requires (requires('request'))
 	- finish unit tests @done(2012-02-18)
 		- deptree @done(2012-02-18)
