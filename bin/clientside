@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 
 program
-  .version('0.0.1')
+  .version('0.0.3')
   .option('-e, --export <name>', 'Module Name')
   .option('-v, --verify', 'Verifies your code in a sandbox')
   .option('-s, --stats', 'Displays file size stats of all files')

@@ -1,8 +1,28 @@
-v0.0.3:
+v0.0.4:
 	- Cs set up examples as unit tests
 	- create history.md
 	- test on node 0.4
 	- update docs for package.json integration
+Future:
+	- read cli version from package
+	- pass in directory
+	- .clientside file
+	- update unit tests
+	- read package.json for dependencies
+	- extract
+	- think about full middleware (replace require, module.exports)
+	- clientside object - be able to turn off require check, module.exports if browser compatible version already exists
+	- file don't require library, but can be set
+	- check if built in
+	- work with require('/mod');
+	- get burrito working
+	- look at esprima
+	- require(variable);
+	- document code (dox?)
+	- uglify
+	- jslint
+	- middleware?
+v0.0.3: @done
 	- --stats to show filesize (lint?) @done(2012-02-20)
 	- option to no-wrap if amd already set (aug) @done(2012-02-20)
 	- figure out how to handle AMD modules (aug) @done(2012-02-19)
@@ -22,24 +42,6 @@ v0.0.3:
 		- library @done(2012-02-18)
 		- file @done(2012-02-18)
 		- wrap @done(2012-02-18)
-Future:
-	- pass in directory
-	- .clientside file
-	- update unit tests
-	- read package.json for dependencies
-	- extract
-	- think about full middleware (replace require, module.exports)
-	- clientside object - be able to turn off require check, module.exports if browser compatible version already exists
-	- file don't require library, but can be set
-	- check if built in
-	- work with require('/mod');
-	- get burrito working
-	- look at esprima
-	- require(variable);
-	- document code (dox?)
-	- uglify
-	- jslint
-	- middleware?
 v0.0.2: @done
 	- glob test @done(2012-02-18)
 	- get working with modules (nested as well) https://github.com/substack/node-browserify/blob/master/lib/wrap.js#L329 @done(2012-02-18)
