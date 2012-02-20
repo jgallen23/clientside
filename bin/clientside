@@ -9,7 +9,8 @@ var path = require('path');
 program
   .version('0.0.1')
   .option('-e, --export <name>', 'Module Name')
-  .option('-v, --verify', 'verify')
+  .option('-v, --verify', 'Verifies your code in a sandbox')
+  .option('-s, --stats', 'Displays file size stats of all files')
   .usage('-e <name> [file]');
 
 program.on('--help', function() {
@@ -25,7 +26,8 @@ program.parse(process.argv);
 
 var files = program.args;
 
-var verify = function(out) {
+var verify = function(lib) {
+  var out = lib.build();
   var vm = require('vm');
   var sandbox = {
     window: {},
@@ -44,10 +46,34 @@ var verify = function(out) {
   }
 };
 
-var output = function(out) {
+var stats = function(lib) {
+  var list = lib.depTree.getList();
+  var out = lib.build();
+  var toKB = function(bytes) {
+    return (bytes / 1024).toFixed(2);
+
+  }
+  for (var i = 0, c = list.length; i < c; i++) {
+    var filepath = list[i];
+    filepath = lib.shims[filepath] || filepath;
+    var file = lib.meta.files[filepath];
+    var bytes = Buffer.byteLength(file.source);
+    var kb = toKB(bytes);
+    var relPath = file.filename.replace(process.cwd(), '');
+    console.log(relPath + ' ' + kb + 'kb');
+  }
+  console.log('------------------------');
+  var kb = toKB(Buffer.byteLength(out));
+  console.log('TOTAL: ' + kb + 'kb');
+};
+
+var output = function(lib) {
   if (program.verify) {
-    verify(out);
+    verify(lib);
+  } else if (program.stats) {
+    stats(lib);
   } else {
+    var out = lib.build();
     process.stdout.write(out);
   }
 };
@@ -56,15 +82,13 @@ if (program.export && files.length == 1) {
   var file = files[0];
   file = path.join(process.cwd(), file);
   var l = new Library(program.export, file);
-  var out = l.build();
-  output(out);
+  output(l);
 } else {
   //read from package.json
   if (path.existsSync('package.json')) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     var l = packageReader(json);
-    var out = l.build();
-    output(out);
+    output(l);
   } else {
     process.stdout.write(program.helpInformation());
     program.emit('--help');

@@ -1,9 +1,10 @@
 v0.0.3:
-	- option to no-wrap if amd already set (aug) @done(2012-02-20)
 	- Cs set up examples as unit tests
 	- create history.md
 	- test on node 0.4
 	- update docs for package.json integration
+	- --stats to show filesize (lint?) @done(2012-02-20)
+	- option to no-wrap if amd already set (aug) @done(2012-02-20)
 	- figure out how to handle AMD modules (aug) @done(2012-02-19)
 	- --verify (run in vm context) @done(2012-02-19)
 	- sketch out flow @done(2012-02-18)
@@ -22,10 +23,11 @@ v0.0.3:
 		- file @done(2012-02-18)
 		- wrap @done(2012-02-18)
 Future:
+	- pass in directory
+	- .clientside file
 	- update unit tests
 	- read package.json for dependencies
 	- extract
-	- --stats to show filesize (lint?)
 	- think about full middleware (replace require, module.exports)
 	- clientside object - be able to turn off require check, module.exports if browser compatible version already exists
 	- file don't require library, but can be set
