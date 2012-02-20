@@ -1,0 +1,12 @@
+{
+  "name": "awesomeCalc",
+  "clientside": {
+    "name": "AwesomeCalc",
+    "settings": {
+      "aug": {
+        "modify": false,
+        "id": "window.aug"
+      }
+    }
+  }
+}

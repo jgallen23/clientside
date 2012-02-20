@@ -1,10 +1,11 @@
 v0.0.3:
-	- figure out how to handle AMD modules (aug) @done(2012-02-19)
-	- --verify (run in vm context) @done(2012-02-19)
+	- option to no-wrap if amd already set (aug) @done(2012-02-20)
 	- Cs set up examples as unit tests
 	- create history.md
 	- test on node 0.4
 	- update docs for package.json integration
+	- figure out how to handle AMD modules (aug) @done(2012-02-19)
+	- --verify (run in vm context) @done(2012-02-19)
 	- sketch out flow @done(2012-02-18)
 	- refactor file library @done(2012-02-19)
 	- refactor library to be chainable (don't pass in index file) @done(2012-02-19)
@@ -13,6 +14,7 @@ v0.0.3:
 	- a config file that can be checked into repo (or set in package.json) to let clientside know how to build @done(2012-02-18)
 	- overview of what each class does @done(2012-02-18)
 	- need library or should file be able to handle everything? @done(2012-02-18)
+	- Client side examples. Look at browserify @done(2012-02-19)
 	- some way to shim server requires (requires('request')) @done(2012-02-18)
 	- finish unit tests @done(2012-02-18)
 		- deptree @done(2012-02-18)
@@ -20,7 +22,10 @@ v0.0.3:
 		- file @done(2012-02-18)
 		- wrap @done(2012-02-18)
 Future:
-	- Client side examples. Look at browserify
+	- update unit tests
+	- read package.json for dependencies
+	- extract
+	- --stats to show filesize (lint?)
 	- think about full middleware (replace require, module.exports)
 	- clientside object - be able to turn off require check, module.exports if browser compatible version already exists
 	- file don't require library, but can be set
