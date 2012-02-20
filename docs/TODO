@@ -1,7 +1,7 @@
 v0.0.3:
-	- figure out how to handle AMD modules (aug)
-	- --verify (run in vm context)
-	- think about full middleware (replace require, module.exports)
+	- figure out how to handle AMD modules (aug) @done(2012-02-19)
+	- --verify (run in vm context) @done(2012-02-19)
+	- Cs set up examples as unit tests
 	- create history.md
 	- test on node 0.4
 	- update docs for package.json integration
@@ -21,7 +21,7 @@ v0.0.3:
 		- wrap @done(2012-02-18)
 Future:
 	- Client side examples. Look at browserify
-	- Cs set up examples as unit tests
+	- think about full middleware (replace require, module.exports)
 	- clientside object - be able to turn off require check, module.exports if browser compatible version already exists
 	- file don't require library, but can be set
 	- check if built in

@@ -9,6 +9,7 @@ var path = require('path');
 program
   .version('0.0.1')
   .option('-e, --export <name>', 'Module Name')
+  .option('-v, --verify', 'verify')
   .usage('-e <name> [file]');
 
 program.on('--help', function() {
@@ -24,19 +25,46 @@ program.parse(process.argv);
 
 var files = program.args;
 
+var verify = function(out) {
+  var vm = require('vm');
+  var sandbox = {
+    window: {},
+    console: {
+      log: function() {} 
+    }
+  }
+  try {
+    vm.runInNewContext(out, sandbox);
+    console.log("No Errors");
+  } catch(e) {
+    //TODO:stack trace
+    console.error("Error: "+e.message);
+    if (e.stack)
+      console.log(e.stack);
+  }
+};
+
+var output = function(out) {
+  if (program.verify) {
+    verify(out);
+  } else {
+    process.stdout.write(out);
+  }
+};
+
 if (program.export && files.length == 1) {
   var file = files[0];
   file = path.join(process.cwd(), file);
   var l = new Library(program.export, file);
   var out = l.build();
-  process.stdout.write(out);
+  output(out);
 } else {
   //read from package.json
   if (path.existsSync('package.json')) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     var l = packageReader(json);
     var out = l.build();
-    process.stdout.write(out);
+    output(out);
   } else {
     process.stdout.write(program.helpInformation());
     program.emit('--help');
