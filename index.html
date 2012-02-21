@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Logr</title>
+    <title>ClientSide</title>
     <link type="text/css" rel="stylesheet" href="ui/common.css"/>
     <link type="text/css" rel="stylesheet" href="ui/ir_black.css"/>
     <script type="text/javascript">
@@ -18,10 +18,10 @@
     <a href="http://github.com/jgallen23/logr"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
     <div id="wrapper">
 <h1>ClientSide</h1>
-<p>Clientside is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.
+<p>Clientside is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.  It will parse your library, finding all dependencies, wrap all files in a closure, concatinate them and replace all require() calls with variable references.
 
 </p>
-<p><em>Note this is still an early release, so it might not work in every case.  If you run into an issue, please add it <a href="">here</a>.</em>
+<p><em>Note this is still an early release, so it might not work in every case.  If you run into an issue, please add it <a href="https://github.com/jgallen23/clientside/issues">here</a>.</em>
 
 </p>
 <h2>Installation</h2>
@@ -34,13 +34,17 @@
 
 Options:
 
--h, --help           output usage information
--V, --version        output the version number
--e, --export &lt;name>  Module Name
+    -h, --help           output usage information
+    -V, --version        output the version number
+    -e, --export &lt;name>  Module Name
+    -v, --verify         Verifies your code <span class="keyword">in</span> a sandbox
+    -s, --stats          Displays file size stats of all files
 
 Examples:
-
-$ clientside --export module index.js > dist/module.js</code></pre>
+Pass <span class="keyword">in</span> params
+    $ clientside --export module index.js > dist/module.js
+Read from package.json
+    $ clientside > dist/module.js</code></pre>
 <h2>Examples</h2>
 <h3>index.js</h3>
 <pre><code><span class="keyword">var</span> ClassA = require(<span class="string">'./a'</span>);
@@ -60,26 +64,32 @@ module.exports = ClassA;</code></pre>
 <h3>Command</h3>
 <pre><code>clientside --export ClassB index.js</code></pre>
 <h3>Output</h3>
+<p>As you can see in the output, a.js got wrapped in a closure and set as cs1 and index.js&apos;s require(&apos;./a&apos;) call got replaced by cs1.  The entire file also got wrapped in a closure, set to the export name that was passed in, which is set to the output from the main file (index.js).
+
+</p>
 <pre><code><span class="keyword">var</span> ClassB = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
     <span class="keyword">var</span> cs1 = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
         <span class="keyword">var</span> ClassA = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-                console.log(<span class="string">'ClassA init'</span>);
+            console.log(<span class="string">'ClassA init'</span>);
         }
 
         exports = ClassA;
 
         <span class="keyword">return</span> exports;
     })({});
-    <span class="keyword">var</span> ClassA = cs1;
+    <span class="keyword">var</span> cs0 = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+        <span class="keyword">var</span> ClassA = cs1;
 
-    <span class="keyword">var</span> ClassB = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+        <span class="keyword">var</span> ClassB = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
             <span class="keyword">this</span>.a = <span class="keyword">new</span> ClassA();
-                console.log(<span class="string">'ClassB init'</span>);
-    };
+            console.log(<span class="string">'ClassB init'</span>);
+        };
 
-    exports = ClassB;
+        exports = ClassB;
 
-    <span class="keyword">return</span> exports;
+        <span class="keyword">return</span> exports;
+    })({});
+    <span class="keyword">return</span> cs0;
 })({});</code></pre>
 <h2>Future</h2>
 <p>View <a href="https://raw.github.com/jgallen23/clientside/master/docs/TODO">TODO</a>
