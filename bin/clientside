@@ -81,7 +81,11 @@ var output = function(lib) {
 if (program.export && files.length == 1) {
   var file = files[0];
   file = path.join(process.cwd(), file);
-  var l = new Library(program.export, file);
+  var opt = {
+    main: file,
+    name: program.export
+  }
+  var l = new Library(opt);
   output(l);
 } else {
   //read from package.json
