@@ -1,4 +1,4 @@
-v0.0.4:
+v0.0.5:
 	- Cs set up examples as unit tests
 	- create history.md
 	- test on node 0.4
@@ -22,6 +22,8 @@ Future:
 	- uglify
 	- jslint
 	- middleware?
+v0.0.4: @done
+	- update bin file for new library syntax @done(2012-02-20)
 v0.0.3: @done
 	- --stats to show filesize (lint?) @done(2012-02-20)
 	- option to no-wrap if amd already set (aug) @done(2012-02-20)
