@@ -4,4 +4,4 @@
 
 *Note this is still an early release, so it might not work in every case.  If you run into an issue, please add it [here](https://github.com/jgallen23/clientside/issues).*
 
-For more information, check out the [documenation](http://jgallen23.github.com/clientside/).
+For more information, check out the [documentation](http://jgallen23.github.com/clientside/).
