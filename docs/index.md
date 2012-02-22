@@ -1,6 +1,6 @@
 #ClientSide
 
-Clientside is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.  It will parse your library, finding all dependencies, wrap all files in a closure, concatinate them and replace all require() calls with variable references.
+Clientside is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.  It will parse your library, find all its dependencies, wrap all files in a closure, concatinate them and replace all require() calls with variable references.
 
 *Note this is still an early release, so it might not work in every case.  If you run into an issue, please add it [here](https://github.com/jgallen23/clientside/issues).*
 
@@ -54,7 +54,7 @@ Install via npm
 	clientside --export ClassB index.js
 
 ###Output
-As you can see in the output, a.js got wrapped in a closure and set as cs1 and index.js's require('./a') call got replaced by cs1.  The entire file also got wrapped in a closure, set to the export name that was passed in, which is set to the output from the main file (index.js).
+As you can see in the output, a.js got wrapped in a closure and set to cs1 and index.js's require('./a') call got replaced by cs1.  The entire file also got wrapped in a closure, set to the export name that was passed in, which is set to the output from the main file (index.js).
 
 	var ClassB = (function(exports) {
 		var cs1 = (function(exports) {
