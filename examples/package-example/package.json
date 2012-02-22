@@ -1,0 +1,9 @@
+{
+	"name": "SomeAwesomePackage",
+	"main": "index.js",
+	"clientside": {
+		"shim": {
+			"http": "ajax.js"
+		}
+	}
+}
