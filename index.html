@@ -30,7 +30,7 @@
 </p>
 <pre><code>npm install -g clientside</code></pre>
 <h2>Usage</h2>
-<pre><code>Usage: clientside -e &lt;name> [file]
+<pre><code>Usage: clientside [file]
 
 Options:
 
@@ -90,6 +90,77 @@ module.exports = ClassA;</code></pre>
         <span class="keyword">return</span> exports;
     })({});
     <span class="keyword">return</span> cs0;
+})({});</code></pre>
+<h2>Package.json Integration</h2>
+<p>ClientSide will read your package.json if no arguments are passed in.
+
+</p>
+<pre><code>{
+    <span class="string">"name"</span>: <span class="string">"SomeAwesomePackage"</span>,
+    <span class="string">"main"</span>: <span class="string">"index.js"</span>,
+    <span class="string">"clientside"</span>: {
+        <span class="string">"shim"</span>: {
+            <span class="string">"http"</span>: <span class="string">"ajax.js"</span>
+        }
+    }
+}</code></pre>
+<p>You can also add a clientside object to your package.json.  This is handy if, for example, your library makes some http requests using the http module.  In the clientside object, you can define a shim that will replace the http object with another file (in this case, replace http client with one that uses XMLHttpRequest).
+
+</p>
+<h3>a.js</h3>
+<pre><code><span class="keyword">var</span> http = require(<span class="string">'http'</span>);
+
+<span class="keyword">var</span> ClassA = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">'ClassA init'</span>);
+};
+
+module.exports = ClassA;</code></pre>
+<h3>index.js</h3>
+<pre><code><span class="keyword">var</span> ClassA = require(<span class="string">'./a'</span>);
+
+<span class="keyword">var</span> ClassB = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    <span class="keyword">this</span>.a = <span class="keyword">new</span> ClassA();
+    console.log(<span class="string">'ClassB init'</span>);
+};
+
+module.exports = ClassB;</code></pre>
+<h3>ajax.js</h3>
+<pre><code>module.exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    console.log(<span class="string">"this will make ajax calls"</span>);
+};</code></pre>
+<h3>Output</h3>
+<pre><code><span class="keyword">var</span> SomeAwesomePackage = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+    <span class="keyword">var</span> cs0 = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+        exports = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            console.log(<span class="string">"this will make ajax calls"</span>);
+        };
+
+        <span class="keyword">return</span> exports;
+    })({});
+    <span class="keyword">var</span> cs2 = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+        <span class="keyword">var</span> http = cs0;
+
+        <span class="keyword">var</span> ClassA = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            console.log(<span class="string">'ClassA init'</span>);
+        };
+
+        exports = ClassA;
+
+        <span class="keyword">return</span> exports;
+    })({});
+    <span class="keyword">var</span> cs1 = (<span class="function"><span class="keyword">function</span><span class="params">(exports)</span> {</span>
+        <span class="keyword">var</span> ClassA = cs2;
+
+        <span class="keyword">var</span> ClassB = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+            <span class="keyword">this</span>.a = <span class="keyword">new</span> ClassA();
+            console.log(<span class="string">'ClassB init'</span>);
+        };
+
+        exports = ClassB;
+
+        <span class="keyword">return</span> exports;
+    })({});
+    <span class="keyword">return</span> cs1;
 })({});</code></pre>
 <h2>Future</h2>
 <p>View <a href="https://raw.github.com/jgallen23/clientside/master/docs/TODO">TODO</a>
