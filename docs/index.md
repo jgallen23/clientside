@@ -2,7 +2,32 @@
 
 Clientside is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.  It will parse your library, find all its dependencies, wrap all files in a closure, concatinate them and replace all require() calls with variable references.
 
+Clientside is designed for people that want to write a library and release it to the node community and the client-side javascript community.  Nodejs developers shouldn't assume that everybody is running node, so we need to provide a way for other people to use our libraries without installing something like browserify.
+
 *Note this is still an early release, so it might not work in every case.  If you run into an issue, please add it [here](https://github.com/jgallen23/clientside/issues).*
+
+Here's a comparison ClientSide and Browserify with a couple different libraries, written CommonJS style, converted to run in the browser:
+
+<table>
+	<tr>
+		<th>Tool</th>
+		<th>Tiny Library (220b)</th>
+		<th>Medium Library (10k)</th>
+	</tr>
+	<tr>
+		<td>ClientSite</td>
+		<td>423b</td>
+		<td>10.8k</td>
+	</tr>
+	<tr>
+		<td>Browserify</td>
+		<td>9.7k</td>
+		<td>22k</td>
+	</tr>
+</table>
+
+
+I think what Browserify does is fine if you are running it on your entire website where you have 100s of kb of javascript and you only add the ~9k overhead once.  But in my workflow, that doesn't work for me.  I want to write small libraries and be able to reuse them in a nodejs enviornment at home and a php enviornment at work.  
 
 ##Installation
 
@@ -162,7 +187,8 @@ You can also add a clientside object to your package.json.  This is handy if, fo
 
 ##Future
 
-View [TODO](https://raw.github.com/jgallen23/clientside/master/docs/TODO)
+- Connect Middleware
+- Coffeescript Support
 
 ##Authors
 - Greg Allen ([@jgaui](http://twitter.com/jgaui)) [jga.me](http://jga.me)
