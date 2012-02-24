@@ -41,3 +41,16 @@ p, ul {
 small, aside {
     font-size: 10px;
 }
+
+table { 
+	width: 100%;
+	margin-bottom: 24px;
+}
+
+table tr {
+	text-align: left;
+}
+
+table th, table td {
+	padding: 5px;
+}
