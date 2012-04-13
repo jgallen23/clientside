@@ -7,6 +7,7 @@ var File = require('../lib/file');
 var fixtureA = path.join(__dirname, 'fixtures/a.js');
 var fixtureB = path.join(__dirname, 'fixtures/b.js');
 var fixtureC = path.join(__dirname, 'fixtures/c.js');
+var fixtureD = path.join(__dirname, 'fixtures/d.js');
 
 describe('File', function() {
   describe('#init', function() {
@@ -133,6 +134,15 @@ describe('File', function() {
       expect(out).to.not.match(/requires/);
       expect(out).to.not.match(/module.exports/);  
     });
+
+    it('should set exports if passed in from options', function() {
+      var f = new File(fixtureD, {
+        exports: 'debug'
+      });
+      var out = f.build();
+      expect(out).to.match(/exports = debug;/);
+    });
+    
   });
 
   //TODO:
