@@ -89,7 +89,7 @@ if (program.export && files.length == 1) {
   output(l);
 } else {
   //read from package.json
-  if (path.existsSync('package.json')) {
+  if (fs.existsSync('package.json')) {
     var json = JSON.parse(fs.readFileSync('package.json'));
     var l = packageReader(json);
     output(l);
