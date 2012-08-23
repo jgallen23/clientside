@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/jgallen23/clientside.png)](http://travis-ci.org/jgallen23/clientside)
 # Clientside
 
 [Clientside](http://jgallen23.github.com/clientside/) is a tool for converting a node.js library (CommonJS) into a library that is compatible in the browser.
