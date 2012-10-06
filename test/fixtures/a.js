@@ -1,5 +1,5 @@
-var ClassA = function() {
-  console.log('ClassA init');
+var fnA = function() {
+  return 'a';
 }
 
-module.exports = ClassA;
+module.exports = fnA;

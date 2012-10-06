@@ -1,0 +1,27 @@
+if (typeof __cs == 'undefined') {
+  var __cs = { 
+    map: {}, 
+    libs: {},
+    r: function(p) {
+      var mod = __cs.libs[__cs.map[p]];
+      if (!mod) {
+        throw new Error(mod + ' not found');
+      }
+      return mod;
+    }
+  };
+}
+{{#eachObject deps}}
+__cs.map['{{key}}'] = '{{lookup ../files value 'id'}}'
+{{/eachObject}}
+{{#eachFromMap order files}}
+
+//{{item.basename}}
+{{#if isLast}}var {{../../moduleName}} = __cs.libs.main{{else}}__cs.libs.{{item.id}}{{/if}} = (function(require, module, exports) {
+{{{item.source}}}
+return module.exports || exports;
+})(__cs.r, {}, {});
+{{/eachFromMap}}
+
+
+
