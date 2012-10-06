@@ -1,8 +1,8 @@
-var ClassA = require('./a');
+var fnA = require('./a');
 
-var ClassB = function() {
-  this.a = new ClassA();
-  console.log('ClassB init');
+var fnB = function() {
+  var a = fnA();
+  return a + 'b';
 };
 
-module.exports = ClassB;
+module.exports = fnB;

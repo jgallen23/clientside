@@ -1,11 +1,10 @@
-var ClassA = require('./a');
-var ClassB = require('./b');
+var fnA = require('./a');
+var fnB = require('./b');
 
-var a = new ClassA();
-var b = new ClassB();
+var a = fnA();
+var b = fnB();
 
 module.exports = {
   a: a,
-  b: b,
-  ClassA: require('./a')
+  b: b
 };
