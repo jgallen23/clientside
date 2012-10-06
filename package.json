@@ -9,10 +9,13 @@
     "url": "https://github.com/jgallen23/clientside.git"
   },
   "dependencies": {
+    "deptree": "0.1.0",
     "aug": "0.0.5",
     "detective": "0.2.1",
     "glob": "3.1.13",
-    "optimist": "0.3.4"
+    "optimist": "0.3.4",
+    "resistance": "2.0.0alpha4",
+    "handlebars": "1.0.7"
   },
   "devDependencies": {
     "mocha": "*",
