@@ -10,6 +10,7 @@ if (typeof __cs == 'undefined') {
       return mod;
     }
   };
+  window.require = __cs.r;
 }
 {{#eachObject deps}}
 __cs.map['{{key}}'] = '{{lookup ../files value 'id'}}'

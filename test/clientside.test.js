@@ -15,6 +15,7 @@ describe('clientside', function() {
       clientside(fixtureDir + 'c.js', 'name', function(err, results) {
 
         var sandbox = {
+          window: {},
           __cs: undefined,
           name: undefined,
           console: {
@@ -68,6 +69,12 @@ describe('clientside', function() {
       assert.equal(typeof out.name, 'object');
       assert.equal(out.name.a, 'a');
       assert.equal(out.name.b, 'ab');
+    });
+    it('should expose global require function', function() {
+      assert.equal(typeof out.window.require, 'function');
+      assert.equal(typeof out.window.require('./b'), 'function');
+      assert.equal(out.window.require('./b')(), 'ab');
+      
     });
 
     
