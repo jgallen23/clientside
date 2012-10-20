@@ -1,4 +1,10 @@
 
+0.2.0 / 2012-10-19 
+==================
+
+  * added comment to top of generated file
+  * expose global require
+
 0.1.1 / 2012-10-06 
 ==================
 
