@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version
+var clientside = require('../');
 
 var opt = require('optimist')
-    .usage('clientside'+ version +'\nUsage: $0')
+    .usage('clientside'+ clientside.version +'\nUsage: $0')
     .options('m', {
       alias: 'main',
       describe: 'Main file',
@@ -28,7 +28,6 @@ if (argv.help) {
   return opt.showHelp();
 }
 
-var clientside = require('../');
 clientside(argv.main, argv.name, function(err, results) {
   if (err) {
     throw err;
