@@ -24,7 +24,9 @@ __cs.libs.{{item.id}} = (function(require, module, exports) {
 return module.exports || exports;
 })(__cs.r, {}, {});
 {{#if isLast}}
-var {{../../moduleName}} = __cs.libs.{{item.id}};
+{{#if item.name}}
+var {{item.name}} = __cs.libs.{{item.id}};
+{{/if}}
 {{/if}}
 {{/eachFromMap}}
 

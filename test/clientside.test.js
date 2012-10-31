@@ -46,65 +46,90 @@ suite('clientside', function() {
     var out;
     var source;
 
-    setup(function(done) {
-      run({
-        main: fixtureDir + 'c.js', 
-        name: 'name'
-      }, function(s, o) {
-        source = s;
-        out = o;
-        done();
+    suite('with module name', function() {
+      
+      setup(function(done) {
+        run({
+          main: fixtureDir + 'c.js', 
+          name: 'name'
+        }, function(s, o) {
+          source = s;
+          out = o;
+          done();
+        });
+      });
+
+      test('should add comment to top with clientside version', function() {
+        assert.ok(source.match(/built with clientside/));
+        assert.ok(source.match('built with clientside '+version));
+      });
+
+      test('should create __cs object', function() {
+        assert.equal(typeof out.__cs, 'object');
+        assert.equal(typeof out.__cs.map, 'object');
+        assert.equal(typeof out.__cs.libs, 'object');
+        assert.equal(typeof out.__cs.r, 'function');
+      });
+
+      test('should have found two unique requires', function() {
+        assert.equal(typeof out.__cs.map['./a'], 'string');
+        assert.equal(typeof out.__cs.map['./b'], 'string');
+      });
+
+      test('should have loaded 3 libs', function() {
+        var count = 0;
+        for (var key in out.__cs.libs) {
+          count++;
+        }
+        assert.equal(count, 3);
+      });
+
+      test('require(./a) should return a function', function() {
+        //__cs.r == require inside module
+        assert.equal(typeof out.__cs.r('./a'), 'function');
+        assert.equal(out.__cs.r('./a')(), 'a');
+      });
+
+      test('require(./b) should return a function', function() {
+        assert.equal(typeof out.__cs.r('./b'), 'function');
+        assert.equal(out.__cs.r('./b')(), 'ab');
+      });
+      
+      test('name should be results from c.js', function() {
+        assert.equal(typeof out.name, 'object');
+        assert.equal(out.name.a, 'a');
+        assert.equal(out.name.b, 'ab');
+      });
+
+      test('should expose global require function', function() {
+        assert.equal(typeof out.window.require, 'function');
+        assert.equal(typeof out.window.require('./b'), 'function');
+        assert.equal(out.window.require('./b')(), 'ab');
       });
     });
 
-    test('should add comment to top with clientside version', function() {
-      assert.ok(source.match(/built with clientside/));
-      assert.ok(source.match('built with clientside '+version));
-    });
+    suite('without module name', function() {
 
-    test('should create __cs object', function() {
-      assert.equal(typeof out.__cs, 'object');
-      assert.equal(typeof out.__cs.map, 'object');
-      assert.equal(typeof out.__cs.libs, 'object');
-      assert.equal(typeof out.__cs.r, 'function');
-    });
+      setup(function(done) {
+        run({
+          main: fixtureDir + 'c.js'
+        }, function(s, o) {
+          source = s;
+          out = o;
+          done();
+        });
+      });
 
-    test('should have found two unique requires', function() {
-      assert.equal(typeof out.__cs.map['./a'], 'string');
-      assert.equal(typeof out.__cs.map['./b'], 'string');
-    });
-
-    test('should have loaded 3 libs', function() {
-      var count = 0;
-      for (var key in out.__cs.libs) {
-        count++;
-      }
-      assert.equal(count, 3);
-    });
-
-    test('require(./a) should return a function', function() {
-      //__cs.r == require inside module
-      assert.equal(typeof out.__cs.r('./a'), 'function');
-      assert.equal(out.__cs.r('./a')(), 'a');
-    });
-
-    test('require(./b) should return a function', function() {
-      assert.equal(typeof out.__cs.r('./b'), 'function');
-      assert.equal(out.__cs.r('./b')(), 'ab');
+      test('should have loaded 3 libs', function() {
+        var count = 0;
+        for (var key in out.__cs.libs) {
+          count++;
+        }
+        assert.equal(count, 3);
+      });
+      
     });
     
-    test('name should be results from c.js', function() {
-      assert.equal(typeof out.name, 'object');
-      assert.equal(out.name.a, 'a');
-      assert.equal(out.name.b, 'ab');
-    });
-
-    test('should expose global require function', function() {
-      assert.equal(typeof out.window.require, 'function');
-      assert.equal(typeof out.window.require('./b'), 'function');
-      assert.equal(out.window.require('./b')(), 'ab');
-    });
-
     
   });
   
