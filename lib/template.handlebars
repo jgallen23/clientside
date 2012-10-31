@@ -19,10 +19,13 @@ __cs.map['{{key}}'] = '{{lookup ../files value 'id'}}'
 {{#eachFromMap order files}}
 
 //{{item.basename}}
-{{#if isLast}}var {{../../moduleName}} = __cs.libs.main{{else}}__cs.libs.{{item.id}}{{/if}} = (function(require, module, exports) {
+__cs.libs.{{item.id}} = (function(require, module, exports) {
 {{{item.source}}}
 return module.exports || exports;
 })(__cs.r, {}, {});
+{{#if isLast}}
+var {{../../moduleName}} = __cs.libs.{{item.id}};
+{{/if}}
 {{/eachFromMap}}
 
 
