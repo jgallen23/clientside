@@ -7,27 +7,21 @@ var fixtureDir = __dirname + '/fixtures/';
 var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version;
 
 //helper to run clientside in a sandbox
-var run = function(options, done) {
-  clientside(options, function(err, results) {
-    if (err) {
-      return done(err);
+var run = function(results, done) {
+  var sandbox = {
+    window: {},
+    __cs: undefined,
+    name: undefined,
+    console: {
+      log: function() {}
     }
-    var sandbox = {
-      window: {},
-      __cs: undefined,
-      name: undefined,
-      console: {
-        log: function() {}
-      }
-    };
+  };
 
-    var source = results;
-    //console.log(source);
-    vm.runInNewContext(results, sandbox);
-    var out = sandbox;
-    //console.log(out);
-    done(err, source, out);
-  });
+  //console.log(results);
+  vm.runInNewContext(results, sandbox);
+  var out = sandbox;
+  //console.log(out);
+  return out;
 };
 
 suite('clientside', function() {
@@ -45,20 +39,20 @@ suite('clientside', function() {
   });
 
   test('invalid file', function(done) {
-    run({
+    clientside({
       main: fixtureDir + 'bad-file.js', 
       name: 'name'
-    }, function(err, s, o) {
+    }, function(err, results) {
       assert.notEqual(err, null);
       done();
     });
   });
 
   test('missing dep file', function(done) {
-    run({
+    clientside({
       main: fixtureDir + 'invalid-dep.js', 
       name: 'name'
-    }, function(err, s, o) {
+    }, function(err, results) {
       assert.notEqual(err, null);
       done();
     });
@@ -69,12 +63,12 @@ suite('clientside', function() {
     var source;
 
     setup(function(done) {
-      run({
+      clientside({
         main: fixtureDir + 'c.js', 
         name: 'name'
-      }, function(err, s, o) {
-        source = s;
-        out = o;
+      }, function(err, results) {
+        source = results;
+        out = run(results);
         done();
       });
     });
@@ -133,11 +127,11 @@ suite('clientside', function() {
     var out;
 
     setup(function(done) {
-      run({
+      clientside({
         main: fixtureDir + 'c.js'
-      }, function(err, s, o) {
-        source = s;
-        out = o;
+      }, function(err, results) {
+        source = results;
+        out = run(results);
         done();
       });
     });
@@ -151,5 +145,25 @@ suite('clientside', function() {
     });
 
   });
+
+  //suite('build with node module');
+  
+
+  suite('exclude', function() {
+
+    test('can exclude lib from build', function(done) {
+      clientside({
+        main: fixtureDir + 'b.js',
+        excludes: ['./a']
+      }, function(err, results) {
+        //console.log(results);
+        assert.equal(results, fs.readFileSync(fixtureDir + 'b.exclude.js', 'utf8'));
+        done();
+      });
+      
+    });
+    
+  });
+  
 
 });
