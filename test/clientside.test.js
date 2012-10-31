@@ -9,7 +9,9 @@ var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')
 //helper to run clientside in a sandbox
 var run = function(options, done) {
   clientside(options, function(err, results) {
-
+    if (err) {
+      return done(err);
+    }
     var sandbox = {
       window: {},
       __cs: undefined,
@@ -52,7 +54,15 @@ suite('clientside', function() {
     });
   });
 
-  test('missing dep file');
+  test('missing dep file', function(done) {
+    run({
+      main: fixtureDir + 'invalid-dep.js', 
+      name: 'name'
+    }, function(err, s, o) {
+      assert.notEqual(err, null);
+      done();
+    });
+  });
 
   suite('build with module name', function() {
     var out;
