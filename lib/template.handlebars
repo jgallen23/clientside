@@ -25,7 +25,7 @@ return module.exports || exports;
 })(__cs.r, {}, {});
 {{#if isLast}}
 {{#if item.name}}
-var {{item.name}} = __cs.libs.{{item.id}};
+window['{{item.name}}'] = __cs.libs.{{item.id}};
 __cs.map['{{item.name}}'] = '{{item.id}}';
 {{/if}}
 {{/if}}

@@ -110,9 +110,9 @@ suite('clientside', function() {
     });
 
     test('name should be results from c.js', function() {
-      assert.equal(typeof out.name, 'object');
-      assert.equal(out.name.a, 'a');
-      assert.equal(out.name.b, 'ab');
+      assert.equal(typeof out.window.name, 'object');
+      assert.equal(out.window.name.a, 'a');
+      assert.equal(out.window.name.b, 'ab');
     });
 
     test('should expose global require function', function() {
@@ -170,7 +170,7 @@ suite('clientside', function() {
       //from req-node-module.js
       //var a = { a: 1, b: 2 };
       //var b = { b: 3, c: 3 };
-      assert.deepEqual(out.extend(), { a: 1, b: 3, c: 3});
+      assert.deepEqual(out.window.extend(), { a: 1, b: 3, c: 3});
     });
 
     //test('__cs.libs.aug should exist because its a known module', function() {
@@ -205,6 +205,41 @@ suite('clientside', function() {
     });
     
   });
+
+  suite('build two files separately and run them in the same context', function() {
+
+    var out;
+    var source;
+
+    setup(function(done) {
+      clientside({
+        main: fixtureDir + 'a.js',
+        name: './a'
+      }, function(err, results) {
+        var a = results;
+        clientside({
+          main: fixtureDir + 'b.js',
+          name: 'exp',
+          excludes: ['./a']
+        }, function(err, results) {
+          source = a + '\n' + results;
+          out = run(source);
+          done();
+        });
+      });
+    });
+
+    test('require("./a")', function() {
+      assert.equal(typeof out.window.require('./a'), 'function');
+    });
+
+    test('execute b', function() {
+      assert.equal(typeof out.window.exp, 'function');
+      assert.equal(out.window.exp(), 'ab');
+    });
+    
+  });
+  
   
 
 });
