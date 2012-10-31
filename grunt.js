@@ -2,12 +2,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     lint: {
       grunt: 'grunt.js',
+      bin: 'bin/clientside.js',
       lib: 'lib/*.js',
       test: 'test/**/*.js'
     },
     simplemocha: {
       all: {
-        src: 'test/**/*.js',
+        src: 'test/**/*.test.js',
         options: {
           ui: 'tdd',
           reporter: 'list',
@@ -17,7 +18,7 @@ module.exports = function(grunt) {
     },
     watch: {
       test: {
-        files: ['<config:lint.grunt>', '<config:lint.lib>', '<config:lint.test>', 'lib/template.handlebars'],
+        files: ['<config:lint.bin>', '<config:lint.grunt>', '<config:lint.lib>', '<config:lint.test>', 'lib/template.handlebars'],
         tasks: 'default'
       }
     }
