@@ -4,13 +4,7 @@ var fs = require('fs');
 var clientside = require('../');
 
 var opt = require('optimist')
-    .usage('clientside'+ clientside.version +'\nUsage: $0')
-    .options('m', {
-      alias: 'main',
-      describe: 'Main file',
-      type: 'string',
-      demand: true
-    })
+    .usage('clientside '+ clientside.version +'\nUsage: $0 file.js [options]')
     .options('n', {
       alias: 'name',
       describe: 'Module name',
@@ -23,12 +17,17 @@ var opt = require('optimist')
 
 var argv = opt.argv;
 
-if (argv.help) {
-  return opt.showHelp();
+if (argv.help || argv._.length === 0) {
+  return opt.showHelp(function(help) {
+    console.log(help);
+    if (argv._.length === 0) {
+      console.error('Error: must pass in a file');
+    }
+  });
 }
 
 clientside({
-  main: argv.main, 
+  main: argv._[0], 
   name: argv.name
 }, function(err, results) {
   if (err) {

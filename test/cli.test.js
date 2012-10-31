@@ -9,26 +9,39 @@ suite('cli', function() {
 
   test('clientside no arguments', function(done) {
     exec(cmd, function(err, stdout, stderr) {
-      assert.notEqual(err, null);
-      assert.ok(stderr.match(/Missing required arguments: m/));
+      assert.ok(stderr.match(/Error: must pass in a file/));
       done();
     });
   });
 
-  test('clientside -m', function(done) {
-    exec(cmd + ' -m test/fixtures/c.js', function(err, stdout, stderr) {
+  test('clientside <file.js>', function(done) {
+    exec(cmd + ' test/fixtures/c.js', function(err, stdout, stderr) {
       assert.equal(err, null);
       assert.ok(stdout, fs.readFileSync('test/fixtures/out.js', 'utf8'));
       done();
     });
   });
   
-  test('clientside -m -n', function(done) {
-    exec(cmd + ' -m test/fixtures/c.js -n name', function(err, stdout, stderr) {
+  test('clientside <file.js> -n', function(done) {
+    exec(cmd + ' test/fixtures/c.js -n name', function(err, stdout, stderr) {
       assert.equal(err, null);
       assert.ok(stdout, fs.readFileSync('test/fixtures/out.js', 'utf8'));
       done();
     });
   });
-});
 
+  test('clientside -h', function(done) {
+    exec(cmd + ' -h', function(err, stdout, stderr) {
+      assert.equal(err, null);
+      assert.ok(stdout.match(/clientside \d.\d.\d\nUsage: /));
+      done();
+    });
+  });
+  test('clientside --help', function(done) {
+    exec(cmd + ' --help', function(err, stdout, stderr) {
+      assert.equal(err, null);
+      assert.ok(stdout.match(/clientside \d.\d.\d\nUsage: /));
+      done();
+    });
+  });
+});
