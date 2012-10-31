@@ -120,6 +120,11 @@ suite('clientside', function() {
       assert.equal(typeof out.window.require('./b'), 'function');
       assert.equal(out.window.require('./b')(), 'ab');
     });
+
+    test('should require name', function() {
+      assert.equal(typeof out.window.require('name'), 'object');
+    });
+
   });
 
   suite('build without module name', function() {
@@ -146,7 +151,36 @@ suite('clientside', function() {
 
   });
 
-  //suite('build with node module');
+  suite('build with node module (aug)', function() {
+
+    var out;
+    var source;
+    setup(function(done) {
+      clientside({
+        main: fixtureDir + 'req-node-module.js',
+        name: 'extend'
+      }, function(err, results) {
+        source = results;
+        out = run(results);
+        done();
+      });
+    });
+
+    test('execute', function() {
+      //from req-node-module.js
+      //var a = { a: 1, b: 2 };
+      //var b = { b: 3, c: 3 };
+      assert.deepEqual(out.extend(), { a: 1, b: 3, c: 3});
+    });
+
+    //test('__cs.libs.aug should exist because its a known module', function() {
+      //assert.equal(typeof out.__cs.libs.aug, 'function');
+    //});
+
+    test('require("aug")', function() {
+      assert.equal(typeof out.window.require('aug'), 'function');
+    });
+  });
   
 
   suite('exclude', function() {

@@ -6,7 +6,7 @@ if (typeof __cs == 'undefined') {
     r: function(p) {
       var mod = __cs.libs[__cs.map[p]];
       if (!mod) {
-        throw new Error(mod + ' not found');
+        throw new Error(p + ' not found');
       }
       return mod;
     }
