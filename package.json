@@ -19,7 +19,8 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "chai": "*"
+    "grunt": "0.3.17",
+    "grunt-simple-mocha": "0.2.0"
   },
   "scripts": {
     "test": "mocha"
