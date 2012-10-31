@@ -4,7 +4,7 @@ var vm = require('vm');
 var fs = require('fs');
 
 var fixtureDir = __dirname + '/fixtures/';
-var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version
+var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version;
 
 describe('clientside', function() {
 
@@ -39,8 +39,8 @@ describe('clientside', function() {
 
     });
     it('should add comment to top with clientside version', function() {
-      assert.ok(source.match(/built with clientside/))
-      assert.ok(source.match('built with clientside '+version))
+      assert.ok(source.match(/built with clientside/));
+      assert.ok(source.match('built with clientside '+version));
     });
     it('should create __cs object', function() {
       assert.equal(typeof out.__cs, 'object');

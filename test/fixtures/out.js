@@ -2,7 +2,7 @@ var fixture = (function(exports) {
 var cs1 = (function(exports) {
 var ClassA = function() {
   console.log('ClassA init');
-}
+};
 
 
 exports = ClassA;

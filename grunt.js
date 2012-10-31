@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     lint: {
       lib: 'lib/*.js',
-      test: 'text/**/*.js'
+      test: 'test/**/*.js'
     },
     simplemocha: {
       all: {
