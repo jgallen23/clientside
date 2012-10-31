@@ -30,6 +30,20 @@ suite('cli', function() {
     });
   });
 
+  test('clientside file that doesnt exist', function(done) {
+    exec(cmd + ' test/fixtures/bad-file.js', function(err, stdout, stderr) {
+      assert.notEqual(err, null);
+      done();
+    });
+  });
+
+  test('clientside dep that doesnt exist', function(done) {
+    exec(cmd + ' test/fixtures/invalid-dep.js', function(err, stdout, stderr) {
+      assert.notEqual(err, null);
+      done();
+    });
+  });
+
   test('clientside -h', function(done) {
     exec(cmd + ' -h', function(err, stdout, stderr) {
       assert.equal(err, null);
@@ -37,6 +51,7 @@ suite('cli', function() {
       done();
     });
   });
+
   test('clientside --help', function(done) {
     exec(cmd + ' --help', function(err, stdout, stderr) {
       assert.equal(err, null);
