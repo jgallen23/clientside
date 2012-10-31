@@ -6,6 +6,28 @@ var fs = require('fs');
 var fixtureDir = __dirname + '/fixtures/';
 var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version;
 
+//helper to run clientside in a sandbox
+var run = function(file, name, done) {
+  clientside(file, name, function(err, results) {
+
+    var sandbox = {
+      window: {},
+      __cs: undefined,
+      name: undefined,
+      console: {
+        log: function() {}
+      }
+    };
+
+    var source = results;
+    //console.log(source);
+    vm.runInNewContext(results, sandbox);
+    var out = sandbox;
+    //console.log(out);
+    done(source, out);
+  });
+};
+
 describe('clientside', function() {
 
   it('should expose the current version of clientside', function() {
@@ -17,22 +39,9 @@ describe('clientside', function() {
     var source;
 
     beforeEach(function(done) {
-      clientside(fixtureDir + 'c.js', 'name', function(err, results) {
-
-        var sandbox = {
-          window: {},
-          __cs: undefined,
-          name: undefined,
-          console: {
-            log: function() {}
-          }
-        };
-
-        source = results;
-        //console.log(source);
-        vm.runInNewContext(results, sandbox);
-        out = sandbox;
-        //console.log(out);
+      run(fixtureDir + 'c.js', 'name', function(s, o) {
+        source = s;
+        out = o;
         done();
       });
     });
