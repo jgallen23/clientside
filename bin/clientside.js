@@ -14,7 +14,6 @@ var opt = require('optimist')
     .options('n', {
       alias: 'name',
       describe: 'Module name',
-      demand: true,
       type: 'string'
     })
     .options('h', {
