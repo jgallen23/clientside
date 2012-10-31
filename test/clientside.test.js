@@ -197,7 +197,7 @@ suite('clientside', function() {
     });
 
     test('should only have one loaded lib', function() {
-      assert.equal(source.match(/__cs.libs/).length, 1);
+      assert.equal(source.match(/__cs.libs.cs/g).length, 1);
     });
 
     test('should not find a.js', function() {

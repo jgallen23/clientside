@@ -10,6 +10,12 @@ var opt = require('optimist')
       describe: 'Module name',
       type: 'string'
     })
+    .options('x', {
+      alias: 'exclude',
+      describe: 'Exclude module from build',
+      type: 'string',
+      'default': []
+    })
     .options('h', {
       alias: 'help',
       descripe: 'Show help info'
@@ -28,7 +34,8 @@ if (argv.help || argv._.length === 0) {
 
 clientside({
   main: argv._[0], 
-  name: argv.name
+  name: argv.name,
+  excludes: (typeof argv.exclude === 'string') ? [argv.exclude] : argv.exclude
 }, function(err, results) {
   if (err) {
     throw err;
