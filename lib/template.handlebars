@@ -14,7 +14,7 @@ if (typeof __cs == 'undefined') {
   window.require = __cs.r;
 }
 {{#eachObject deps}}
-__cs.map['{{key}}'] = '{{lookup ../files value 'id'}}'
+__cs.map['{{key}}'] = '{{lookup ../files value 'id'}}';
 {{/eachObject}}
 {{#eachFromMap order files}}
 

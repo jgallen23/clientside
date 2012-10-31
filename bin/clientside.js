@@ -28,7 +28,10 @@ if (argv.help) {
   return opt.showHelp();
 }
 
-clientside(argv.main, argv.name, function(err, results) {
+clientside({
+  main: argv.main, 
+  name: argv.name
+}, function(err, results) {
   if (err) {
     throw err;
   }
