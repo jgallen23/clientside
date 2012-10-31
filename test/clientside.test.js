@@ -185,16 +185,23 @@ suite('clientside', function() {
 
   suite('exclude', function() {
 
-    test('can exclude lib from build', function(done) {
+    setup(function(done) {
       clientside({
         main: fixtureDir + 'b.js',
         excludes: ['./a']
       }, function(err, results) {
         //console.log(results);
-        assert.equal(results, fs.readFileSync(fixtureDir + 'b.exclude.js', 'utf8'));
+        source = results;
         done();
       });
-      
+    });
+
+    test('should only have one loaded lib', function() {
+      assert.equal(source.match(/__cs.libs/).length, 1);
+    });
+
+    test('should not find a.js', function() {
+      assert.equal(source.match(/a.js/), null);
     });
     
   });
