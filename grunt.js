@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       all: {
         src: 'test/**/*.js',
         options: {
-          ui: 'bdd',
+          ui: 'tdd',
           reporter: 'list',
           growl: true
         }
