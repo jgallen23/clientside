@@ -7,8 +7,8 @@ var fixtureDir = __dirname + '/fixtures/';
 var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version;
 
 //helper to run clientside in a sandbox
-var run = function(file, name, done) {
-  clientside(file, name, function(err, results) {
+var run = function(options, done) {
+  clientside(options, function(err, results) {
 
     var sandbox = {
       window: {},
@@ -34,12 +34,23 @@ describe('clientside', function() {
     assert.ok(clientside.version, version);
   });
 
+  it('should return error if main not passed', function(done) {
+    clientside({}, function(err, results) {
+      assert.notEqual(err, null);
+      assert.equal(err.message, 'main property must be passed in');
+      done();
+    });
+  });
+
   describe('build', function() {
     var out;
     var source;
 
     beforeEach(function(done) {
-      run(fixtureDir + 'c.js', 'name', function(s, o) {
+      run({
+        main: fixtureDir + 'c.js', 
+        name: 'name'
+      }, function(s, o) {
         source = s;
         out = o;
         done();
@@ -64,7 +75,6 @@ describe('clientside', function() {
     });
 
     it('should have loaded 3 libs', function() {
-
       var count = 0;
       for (var key in out.__cs.libs) {
         count++;
