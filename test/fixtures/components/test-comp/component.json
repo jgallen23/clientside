@@ -1,0 +1,4 @@
+{
+  "name": "test-comp",
+  "main": "./lib/index.js"
+}

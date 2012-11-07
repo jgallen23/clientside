@@ -185,6 +185,7 @@ suite('clientside', function() {
 
   suite('exclude', function() {
 
+    var source;
     setup(function(done) {
       clientside({
         main: fixtureDir + 'b.js',

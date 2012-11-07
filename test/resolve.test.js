@@ -27,4 +27,12 @@ suite('resolve', function() {
     p = resolve('./test/test.js', dir); 
     assert.ok(p.match(/test\/fixtures\/test\/test.js$/));
   });
+
+  test('should work with bower components', function() {
+
+    var dir = path.join(__dirname, '/fixtures');
+    var p = resolve('test-comp', dir);
+
+    assert.ok(p.match(/test\/fixtures\/components\/test-comp\/lib\/index.js/));
+  });
 });
