@@ -1,7 +1,7 @@
 {
   "name": "clientside",
   "description": "a tool for converting CommonJS style code into code for the browser",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "http://jgallen23.github.com/clientside/",
   "author": "Greg Allen <@jgaui> (http://jga.me)",
   "repository": {
