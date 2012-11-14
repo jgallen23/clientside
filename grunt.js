@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     lint: {
       grunt: 'grunt.js',
       bin: 'bin/clientside.js',
-      lib: 'lib/*.js',
+      lib: 'lib/**/*.js',
       test: 'test/**/*.js'
     },
     simplemocha: {
@@ -25,4 +25,5 @@ module.exports = function(grunt) {
   });
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.registerTask('default', 'lint simplemocha');
+  grunt.registerTask('dev', 'default watch');
 };

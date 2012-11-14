@@ -2,37 +2,66 @@ var assert = require('assert');
 var path = require('path');
 var resolve = require('../lib/resolve');
 
+var fixturesDir = path.join(__dirname, 'fixtures');
+
 suite('resolve', function() {
   
-  //TODO
-  //test('should work with global modules', function() {
-    //var p = f.resolveRequire('fs');
-    //console.log(p);
-    ////expect(p)
-  //});
+ test('./foo', function() {
+   var f = resolve('./b', path.join(fixturesDir, 'a.js'));
+   assert.equal(f, path.join(fixturesDir, 'b.js'));
+ });
 
-  test('should work with module names', function() {
-    var p = resolve('mocha');
-    assert.ok(p.match(/node_modules\/mocha\/index.js$/));
-  });
+ test('../foo', function() {
+   var f = resolve('../b', path.join(fixturesDir, 'test/test.js'));
+   assert.equal(f, path.join(fixturesDir, 'b.js'));
+ });
 
-  test('should work with relative paths', function() {
-    var dir = path.join(__dirname, '/fixtures');
-    var p = resolve('./b', dir); 
-    assert.ok(p.match(/test\/fixtures\/b.js$/));
+ test('/foo', function() {
+   var f = resolve(path.join(fixturesDir, 'b'), path.join(fixturesDir, 'test/test.js'));
+   assert.equal(f, path.join(fixturesDir, 'b.js'));
+ });
 
-    p = resolve('../resolve.test.js', dir); 
-    assert.ok(p.match(/test\/resolve.test.js$/));
+ test('./folder/foo', function() {
+   var f = resolve('./test/test', path.join(fixturesDir, 'a.js'));
+   assert.equal(f, path.join(fixturesDir, 'test/test.js'));
+ });
 
-    p = resolve('./test/test.js', dir); 
-    assert.ok(p.match(/test\/fixtures\/test\/test.js$/));
-  });
+ test('bower', function() {
+   var f = resolve('comp1', path.join(fixturesDir, 'a.js'));
+   assert.equal(f, path.join(fixturesDir, 'components/comp1/lib/index.js'));
+ });
 
-  test('should work with bower components', function() {
+ test('npm', function() {
+   var f = resolve('mocha', path.join(fixturesDir, 'a.js'));
+   assert.equal(f, path.join(__dirname, '../node_modules/mocha/index.js'));
+ });
 
-    var dir = path.join(__dirname, '/fixtures');
-    var p = resolve('test-comp', dir);
+ suite('invalid', function() {
+   
+   test('module', function() {
+     assert.throws(function() {
+       resolve('derp', path.join(fixturesDir, 'a.js'));
+     });
+   });
 
-    assert.ok(p.match(/test\/fixtures\/components\/test-comp\/lib\/index.js/));
-  });
+   test('./derp', function() {
+     assert.throws(function() {
+       resolve('./derp', path.join(fixturesDir, 'a.js'));
+     });
+   });
+
+   test('../derp', function() {
+     assert.throws(function() {
+       resolve('../derp', path.join(fixturesDir, 'a.js'));
+     });
+   });
+
+   test('/derp', function() {
+     assert.throws(function() {
+       resolve('/derp', path.join(fixturesDir, 'a.js'));
+     });
+   });
+ });
+ 
+
 });
