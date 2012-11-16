@@ -4,7 +4,7 @@ module.exports = function(grunt) {
       grunt: 'grunt.js',
       bin: 'bin/clientside.js',
       lib: 'lib/**/*.js',
-      test: 'test/**/*.js'
+      test: 'test/**/*test.js'
     },
     simplemocha: {
       all: {
