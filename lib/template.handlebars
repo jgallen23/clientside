@@ -21,7 +21,11 @@ __cs.map['{{key}}'] = '{{lookup ../files value 'id'}}';
 //{{item.basename}}
 __cs.libs.{{item.id}} = (function(require, module, exports) {
 {{{item.source}}}
+{{#if item.returns}}
+return {{item.returns}};
+{{else}}
 return module.exports || exports;
+{{/if}}
 })(__cs.r, {}, {});
 {{#if isLast}}
 {{#if item.name}}
