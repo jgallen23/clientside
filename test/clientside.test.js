@@ -190,6 +190,33 @@ suite('clientside', function() {
     
   });
 
+  suite('returns', function() {
+
+    var source;
+    setup(function(done) {
+      clientside({
+        main: fixtureDir + 'returns-test.js',
+        returns: 'a',
+        name: 'a'
+      }, function(err, results) {
+        source = results;
+        done();
+      });
+    });
+
+    test('should return a', function() {
+      assert.ok(source.match(/return a;/));
+    });
+
+    test('should expose a as a function', function() {
+      var out = run(source);
+      assert.equal(typeof out.window.a, 'function');
+      assert.equal(out.window.a(), 'a');
+    });
+    
+  });
+  
+
   suite('build two files separately and run them in the same context', function() {
 
     var out;

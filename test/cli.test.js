@@ -53,6 +53,13 @@ suite('cli', function() {
     });
   });
 
+  test('returns', function(done) {
+    exec(cmd + ' test/fixtures/returns-test.js --returns a', function(err, stdout, stderr) {
+      assert.ok(stdout.match(/return a;/));
+      done();
+    });
+  });
+
   test('exclude multiple', function(done) {
     exec(cmd + ' test/fixtures/c.js --exclude ./a --exclude ./b', function(err, stdout, stderr) {
       assert.equal(stdout.match(/__cs.libs.cs/g).length, 1);

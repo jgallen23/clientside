@@ -16,6 +16,11 @@ var opt = require('optimist')
       type: 'string',
       'default': []
     })
+    .options('r', {
+      alias: 'returns',
+      describe: 'custom returns, useful if module is not built using CommonJS',
+      type: 'string'
+    })
     .options('h', {
       alias: 'help',
       descripe: 'Show help info'
@@ -35,6 +40,7 @@ if (argv.help || argv._.length === 0) {
 clientside({
   main: argv._[0], 
   name: argv.name,
+  returns: argv.returns,
   excludes: (typeof argv.exclude === 'string') ? [argv.exclude] : argv.exclude
 }, function(err, results) {
   if (err) {
