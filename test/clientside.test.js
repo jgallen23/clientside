@@ -1,28 +1,11 @@
 var assert = require('assert');
 var clientside = require('../');
-var vm = require('vm');
 var fs = require('fs');
+var run = require('./sandbox');
 
 var fixtureDir = __dirname + '/fixtures/';
 var version = JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version;
 
-//helper to run clientside in a sandbox
-var run = function(results, done) {
-  var sandbox = {
-    window: {},
-    __cs: undefined,
-    name: undefined,
-    console: {
-      log: function() {}
-    }
-  };
-
-  //console.log(results);
-  vm.runInNewContext(results, sandbox);
-  var out = sandbox;
-  //console.log(out);
-  return out;
-};
 
 suite('clientside', function() {
 
