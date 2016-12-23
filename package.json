@@ -9,18 +9,18 @@
     "url": "https://github.com/jgallen23/clientside.git"
   },
   "dependencies": {
-    "deptree": "0.1.0",
-    "aug": "0.0.5",
-    "detective": "0.2.1",
-    "glob": "3.1.13",
-    "optimist": "0.3.4",
+    "deptree": "1.0.0",
+    "aug": "1.0.1",
+    "detective": "4.3.2",
+    "glob": "7.1.1",
+    "optimist": "0.6.1",
     "resistance": "2.0.0alpha4",
-    "handlebars": "1.0.7"
+    "handlebars": "4.0.6"
   },
   "devDependencies": {
     "mocha": "*",
-    "grunt": "0.3.17",
-    "grunt-simple-mocha": "0.2.0"
+    "grunt": "1.0.1",
+    "grunt-simple-mocha": "0.4.1"
   },
   "scripts": {
     "test": "mocha"
